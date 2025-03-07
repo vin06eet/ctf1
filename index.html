@@ -16,33 +16,30 @@
 </head>
 <body>
     <div class="container">
-        <h1>Fix the Broken JWT</h1>
-        <p>Your task: Decode and fix the JWT to get the flag!</p>
-        <p><strong>Broken JWT:</strong></p>
-        <textarea id="jwtOutput" rows="4" readonly></textarea>
+        <p>DECODE AND FIX</p>
+        <textarea id="Opt" rows="4" readonly></textarea>
 
-        <p>Submit Fixed JWT:</p>
-        <input type="text" id="jwtInput" placeholder="Enter fixed JWT">
+        <input type="text" id="Ipt" placeholder="Enter fixed JWT">
         <button onclick="submitJWT()">Submit</button>
 
         <p id="responseMessage" class="error hidden"></p>
     </div>
 
     <script>
-        const backendUrl = "https://ctf-2-5bvz.onrender.com"; // Change this to match your hosted backend URL
+        const backendUrl = "https://ctf-5.onrender.com"; // Change this to match your hosted backend URL
 
         async function fetchBrokenJWT() {
             try {
                 const response = await fetch(`${backendUrl}/generate`);
                 const data = await response.json();
-                document.getElementById("jwtOutput").value = data.broken_jwt;
+                document.getElementById("Opt").value = data.broken_jwt;
             } catch (error) {
                 console.error("Failed to fetch JWT:", error);
             }
         }
 
         async function submitJWT() {
-            const token = document.getElementById("jwtInput").value;
+            const token = document.getElementById("Ipt").value;
             try {
                 const response = await fetch(`${backendUrl}/submit`, {
                     method: 'POST',
