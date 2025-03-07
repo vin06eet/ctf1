@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broken JWT Challenge</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #222; color: #fff; }
+        .container { max-width: 600px; margin: auto; background: #333; padding: 20px; border-radius: 10px; }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; }
+        input { background: #444; color: white; }
+        button { background: #007bff; color: white; cursor: pointer; }
+        .error { color: red; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fix the Broken JWT</h1>
+        <p>Your task: Decode and fix the JWT to get the flag!</p>
+        <p><strong>Broken JWT:</strong></p>
+        <textarea id="jwtOutput" rows="4" readonly></textarea>
+
+        <p>Submit Fixed JWT:</p>
+        <input type="text" id="jwtInput" placeholder="Enter fixed JWT">
+        <button onclick="submitJWT()">Submit</button>
+
+        <p id="responseMessage" class="error hidden"></p>
+    </div>
+
+    <script>
+        const backendUrl = "https://ctf-2-5bvz.onrender.com"; // Change this to match your hosted backend URL
+
+        async function fetchBrokenJWT() {
+            try {
+                const response = await fetch(`${backendUrl}/generate`);
+                const data = await response.json();
+                document.getElementById("jwtOutput").value = data.broken_jwt;
+            } catch (error) {
+                console.error("Failed to fetch JWT:", error);
+            }
+        }
+
+        async function submitJWT() {
+            const token = document.getElementById("jwtInput").value;
+            try {
+                const response = await fetch(`${backendUrl}/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+
+                const result = await response.json();
+                const messageEl = document.getElementById("responseMessage");
+
+                if (response.ok) {
+                    messageEl.textContent = `Success! Flag: ${result.flag}`;
+                    messageEl.style.color = "green";
+                } else {
+                    messageEl.textContent = result.error;
+                    messageEl.style.color = "red";
+                }
+                messageEl.classList.remove("hidden");
+            } catch (error) {
+                console.error("Failed to submit JWT:", error);
+            }
+        }
+
+        fetchBrokenJWT();
+    </script>
+</body>
+</html>
