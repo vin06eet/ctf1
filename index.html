@@ -48,7 +48,7 @@
                 });
 
                 const result = await response.json();
-                const messageEl = document.getElementById("responseMessage" + "8bitChecksumAsciiTwoFlagsEqualsFinalFlag");
+                const messageEl = document.getElementById("responseMessage"); // + "8bitChecksumAsciiTwoFlagsEqualsFinalFlag"
 
                 if (response.ok) {
                     messageEl.textContent = `Success! Flag: ${result.flag}`;
